@@ -143,21 +143,12 @@
     <link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
 
 </head><body>
-<div id="github"><a href="https://github.com/tschellenbach/Django-facebook" title="Fork me on GitHub">Fork me on Github</a></div>
+
 <div>
 
 
 
-<div class="content">
-    <h2>Django Facebook - Test page</h2>
-    <p>By Thierry Schellenbach
-        <a href="http://www.mellowmorning.com/">mellowmorning.com</a>, <a href="http://twitter.com/tschellenbach">@tschellenbach</a>
-    </p>
-    <p>
-        Soon you will be able to check <a href="http://www.django-facebook.com/">django-facebook.com</a> for more info.
-    </p>
-    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.mellowmorning.com%2F&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
-</div>
+
 <div class="content" style="margin-top: 10px;">
     {% if request.GET.fb_error_or_cancel or request.GET.error %}
         <div class="error">
@@ -238,9 +229,7 @@
                 <tr>
                     <td>Gender:</td><td>{{ user.profile_or_self.gender }}</td>
                 </tr>
-                <tr>
-                    <td>About me:</td><td>{{ user.profile_or_self.about_me }}</td>
-                </tr>
+                
                 <tr>
                     <td>Facebook profile url:</td><td>{{ user.profile_or_self.facebook_profile_url }}</td>
                 </tr>
@@ -261,126 +250,27 @@
                 <tr>
                     <td>Hotlinked Image:</td><td><img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br /></td>
                 </tr>
-                <tr>
-                    <td>Likes:</td>
-                    <td>
-                        <ul>
-                        {% for like in user.profile_or_self.likes|slice:":5" %}
-                            <li>{{ like.name }}</li>
-                        {% endfor %}
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Friends:</td>
-                    <td>
-                        <ul>
-                        {% for friend in user.profile_or_self.friends|slice:":5" %}
-                            <li>{{ friend.name }}</li>
-                        {% endfor %}
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Getting More:</td><td>Facebook has a ton more data, read about it <a href="https://developers.facebook.com/docs/reference/api/">here</a>.</td>
-                </tr>
+                
+                
+                
             </table>
 
-            <p>
-                You can connect users which registered the old fashioned way, by giving them the following option to connect.
-                Note that we explitly indicate that we are connecting using the connect_facebook=1 value.
-            </p>
-            <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-                <a href="javascript:void(0);" onclick="F.connect(this.parentNode);">Connect this account to Facebook</a> (used to connect non facebook accounts)
-                <input type="hidden" value="{{ request.path }}" name="next" />
-                <input type="hidden" name="connect_facebook" value="1">
-                {% csrf_token %}
-            </form>
+            
         {% endif %}
 
     </div>
 
-    <div id="footer">
-
-        </div>
-        <div style="float: right;">
-            <h4>Advanced Testing</h4>
-            <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-                <a href="javascript:void(0);" onclick="F.connect(this.parentNode);">Test fresh registration</a>
-                <input type="hidden" value="{{ request.path }}" name="next" />
-                <input type="hidden" value="1" name="force_registration_hard" />
-                {% csrf_token %}
-            </form>
-            <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-                <a href="javascript:void(0);" onclick="F.connect(this.parentNode);">Test registration</a>
-                <input type="hidden" value="{{ request.path }}" name="next" />
-                <input type="hidden" value="1" name="force_registration" />
-                {% csrf_token %}
-            </form>
-        </div>
-    </div>
+    
 
    <br /><br /><br /><br /><br /><br /><br />
-    <div id="image_upload" style="margin: 60px 0px 20px 0px;">
-        <h2>Album upload flow</h2>
-        <div>
-            <form action="{% url 'facebook_image_upload' %}" method="get">
-                {% csrf_token %}
-                <input type="hidden" value="{{ request.path }}" name="next" />
+    
 
-                <img src="http://e.fashiocdn.com/images/entities/0/7/z/0/D/0.126x126.jpg" alt="image"/>
-                <input type="hidden" value="http://e.fashiocdn.com/images/entities/0/7/z/0/D/0.365x365.jpg" name="pictures" />
+    
 
-                <img src="http://d.fashiocdn.com/images/entities/0/6/T/p/8/0.126x126.jpg" alt="image"/>
-                <input type="hidden" value="http://d.fashiocdn.com/images/entities/0/6/T/p/8/0.365x365.jpg" name="pictures" />
-                <br />
+    
 
-                <input type="submit" value="Upload to your album" />
-            </form>
-        </div>
-    </div>
 
-    <div id="wall_post" style="margin: 60px 0px 20px 0px;">
-        <h2>Post to My Wall</h2>
-        <div>
-            <form action="{% url 'facebook_wall_post' %}" method="get">
-                {% csrf_token %}
-                <input type="hidden" value="{{ request.path }}" name="next" />
-
-                <textarea name="message" rows="3" cols="35">Check out fashiolista.com, loving it :)</textarea>
-                <br />
-                <input type="submit" value="Post to your wall" />
-            </form>
-        </div>
-    </div>
-
-    <div id="wall_post" style="margin: 60px 0px 20px 0px;">
-        <h2>Post to My Wall - Javascript Popup version</h2>
-        <div>
-            <form action="{% url 'facebook_wall_post' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" value="{{ request.path }}" name="next" />
-
-                <textarea name="message" rows="3" cols="35">Check out fashiolista.com, loving it :)</textarea>
-                <br />
-                <input type="submit" value="Post to your wall" onclick="F.connect(this.parentNode, ['publish_stream']); return false;"/>
-            </form>
-        </div>
-    </div>
-
-    <div id="canvas_page" style="margin: 60px 0px 20px 0px;">
-        <h2>Canvas page Example</h2>
-        Note for the page tab and canvas example to work you need to serve the example at:
-        https://vagrant.mellowmorning.com/facebook/example/
-        <a href="http://apps.facebook.com/django_facebook_test/">Canvas page example</a>
-    </div>
-
-    <div id="page_tab" style="margin: 60px 0px 20px 0px;">
-        <h2>Page tab example</h2>
-        Note for the page tab and canvas example to work you need to serve the example at:
-        https://vagrant.mellowmorning.com/facebook/example/
-        <a href="https://www.facebook.com/dialog/pagetab?app_id={{ FACEBOOK_APP_ID }}&next=https://vagrant.mellowmorning.com/facebook/example/">Add the test page tab</a>
-    </div>
+    
 
 </div>
 
